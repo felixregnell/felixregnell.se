@@ -1,2 +1,4 @@
 # felixregnell.se
-Website containing my web-projects, which I'm thinking of hosting on a Raspberry Pi in the future.
+Frontend for website containing my web-based-projects. 
+
+I intend to use ScalaJS to create a simple SPA.
