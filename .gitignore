@@ -22,7 +22,7 @@ build/
 .env.*.local
 
 # lock files (uncomment if you prefer ignoring them)
- package-lock.json
+package-lock.json
 
 # Scala output
 .metals/
