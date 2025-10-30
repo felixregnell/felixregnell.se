@@ -8,6 +8,8 @@ npm-debug.log*
 # Build output
 dist/
 build/
+.bsp/
+target/
 
 # Vite cache
 .vite/
@@ -26,3 +28,6 @@ package-lock.json
 
 # Scala output
 .metals/
+
+# misc
+TODOs.txt
