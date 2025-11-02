@@ -20,8 +20,5 @@ def MainPage(): dom.Element =
 @main
 def initMainPage(): Unit =
   val app = dom.document.getElementById("app")
-  if(app == null) 
-    throw new Error("naj")
-  
   val mainPage = MainPage()
   app.appendChild(mainPage)
