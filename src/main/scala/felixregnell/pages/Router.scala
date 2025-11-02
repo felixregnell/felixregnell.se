@@ -5,20 +5,28 @@ import org.scalajs.dom.{Event, window, html}
 
 import scala.collection.immutable.HashMap
 
-
 object Router:
-  type Link = (id: String, name: String, path: String, page: () => dom.Element)
+  type Link = (
+    id: String, 
+    name: String, 
+    nameIsSVGPath: Boolean,
+    path: String, 
+    loadPage: () => Unit
+  )
+
   val homePageLink: Link = (
     "home-page", 
-    "Home ", 
+    "/home-alt-svgrepo-com.svg", 
+    true,
     "/", 
-    () => MainPage()
+    () => loadMainPage()
   ) 
   val expenseTrackerPageLink: Link = (
     "expense-tracker-page", 
     "Expense-Tracker", 
+    false,
     "/expense-tracker", 
-    () => ExpenseTrackerPage()
+    () => loadExpenseTrackerPage()
   )
 
   val links = Vector[Link](
@@ -26,25 +34,24 @@ object Router:
     expenseTrackerPageLink 
   )
   
-  def NavBar(): dom.Element = 
-    val navBar = dom.document.createElement("nav").asInstanceOf[html.Element]
-    navBar.id = "main-nav"
-    navBar.classList.add("sidebar")
-
-    for ((id, name, path, page) <- links)
+  def fillNavbar(navbar: html.Element, links: Vector[Link]): Unit = 
+    for ((id, name, nameIsSVGPath, path, loadPage) <- links)
       val link = dom.document.createElement("a").asInstanceOf[html.Anchor]
       link.id = id
       link.href = path
-      link.textContent = name 
+      if (nameIsSVGPath)
+        val img = dom.document.createElement("img").asInstanceOf[html.Image]
+        img.src = name
+        img.classList.add("logo")
+        link.appendChild(img)
+      else 
+        link.textContent = name 
+
       link.addEventListener("click", (e: Event) => 
         e.preventDefault()
         e.stopPropagation()
+        // if current state already path - do nothing
         window.history.pushState(null, "", path)
-        val app = dom.document.getElementById("app")
-        app.innerHTML = "" 
-        app.appendChild(page())
-
+        loadPage()
       ) 
-      navBar.appendChild(link)
-
-    return navBar
+      navbar.appendChild(link)
