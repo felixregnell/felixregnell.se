@@ -1,24 +1,25 @@
 package felixregnell.pages
 
+import felixregnell.App
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation.*
 
 import org.scalajs.dom
+import org.scalajs.dom.{html}
 
-// import javascriptLogo from "/javascript.svg"
-@js.native @JSImport("/javascript.svg", JSImport.Default)
-val javascriptLogo: String = js.native
+val mainPage = App.newBody()
+val links = Vector[Router.Link](
+  Router.expenseTrackerPageLink
+) 
 
-def MainPage(): dom.Element = 
-  val page = dom.document.createElement("div")
-  val navBar = Router.NavBar() 
-  val text = dom.document.createTextNode("This is the main page!")
-  page.appendChild(navBar)
-  page.appendChild(text)
-  return page 
-
+def loadMainPage(): Unit = 
+  App.replaceBody(mainPage)
+  App.replaceNavbar(links)
+ 
 @main
 def initMainPage(): Unit =
-  val app = dom.document.getElementById("app")
-  val mainPage = MainPage()
-  app.appendChild(mainPage)
+  val text = dom.document.createTextNode("Static Main page")
+  mainPage.appendChild(text)
+  App.replaceNavbar(Router.links)
+  loadMainPage()
