@@ -2,6 +2,14 @@ import org.scalajs.linker.interface.ModuleSplitStyle
 
 ThisBuild / scalaVersion := "3.7.3" // Latest as of 2025-10-12
 
+lazy val buildExpenseTracker = taskKey[Unit]("Build React-Ts project expense tracker")
+buildExpenseTracker := {
+  val base = (ThisBuild / baseDirectory).value
+  val expenseTrackerDir = base / "expensetracker" 
+  val exit = sys.process.Process("npm run build", expenseTrackerDir).!
+  if (exit != 0) sys.error("Expense tracker build failed")
+}
+
 lazy val felixregnell = project.in(file("."))
   .enablePlugins(ScalaJSPlugin) // Enable the Scala.js plugin in this project
   .settings(
@@ -27,4 +35,8 @@ lazy val felixregnell = project.in(file("."))
      * It provides static types for the browser DOM APIs.
      */
     libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.8.1",
+
+    Compile / fastLinkJS := (Compile / fastLinkJS)
+      .dependsOn(buildExpenseTracker)
+      .value
   )

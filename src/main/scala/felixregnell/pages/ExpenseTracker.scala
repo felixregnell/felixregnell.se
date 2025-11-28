@@ -2,20 +2,22 @@ package felixregnell.pages
 
 import felixregnell.App
 
+import org.scalajs.dom
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation.*
 
-import org.scalajs.dom
+@JSImport("expense-tracker", JSImport.Default)
+@js.native
+val mountExpenseTracker: js.Function1[org.scalajs.dom.Element, Unit] = js.native
 
 val links = Vector[Router.Link](
   Router.homePageLink
 ) 
 
 def loadExpenseTrackerPage(): Unit = 
-  val body = App.newBody() 
-  val text = dom.document.createTextNode("Dynamic Expense Tracker page")
-  body.appendChild(text)
-  // replace text with fetch-command, that fetches my React application
+  val body = App.newBody()
+  mountExpenseTracker(body)
   App.replaceBody(body)
   App.replaceNavbar(links)
  
