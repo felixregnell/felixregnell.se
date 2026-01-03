@@ -28,6 +28,7 @@ package-lock.json
 
 # Scala output
 .metals/
+metals.sbt
 
 # misc
 TODOs.txt
