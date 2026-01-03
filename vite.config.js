@@ -4,9 +4,4 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [scalaJSPlugin()],
-  resolve: {
-    alias: {
-      'expense-tracker': path.resolve(__dirname, 'expensetracker/dist/expense-tracker.js')
-    }
-  },
 });

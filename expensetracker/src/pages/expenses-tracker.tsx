@@ -1,5 +1,4 @@
 import { BusinessCategory, Transaction } from "@/models/expenses/transaction";
-import { useNavigate, useOutletContext } from "react-router";
 
 import { ExpensesPieChart, generateChartConfig, generateChartData } from "@/components/expenses/expenses-pie-chart"
 import ChooseExpensesFilter from "@/components/expenses/expenses-choose-filter";
@@ -41,9 +40,7 @@ type PropType = {
     unfilteredTransactions: Transaction[]
 }
 
-function ExpenseTracker() {
-    const navigate = useNavigate();
-    const { unfilteredTransactions } = useOutletContext<PropType>()
+function ExpenseTracker( {unfilteredTransactions}: PropType ) {
     const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>(unfilteredTransactions)
     const [businessCategoryFilter, setBusinessCategoryFilter] = useState<BusinessCategory>(BusinessCategory.All)
 
@@ -60,7 +57,6 @@ function ExpenseTracker() {
                 <CardFooter className="flex-col gap-2 text-sm">
                     {!unfilteredTransactions.length ?
                         <Button
-                            onClick={() => navigate("/file-upload")}
                             className="ml-3"> Goto Upload file
                         </Button>
                         :
@@ -78,7 +74,7 @@ function ExpenseTracker() {
                     chartConfig={debugPrintChartConfigGen(filteredTransactions, businessCategoryFilter)}
                     chartData={debugPrintChartDataGen(filteredTransactions, businessCategoryFilter)}
                 />
-                <ExpensesTable />
+                <ExpensesTable unfilteredTransactions={unfilteredTransactions} />
             </CardContent>
         </Card>
     );

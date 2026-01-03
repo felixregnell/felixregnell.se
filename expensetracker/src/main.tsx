@@ -1,42 +1,32 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
-import ExpensesFileUpload from './pages/expenses-file-upload.tsx'
-import NotFound from './pages/NotFound.tsx'
-import { createBrowserRouter, RouterProvider } from 'react-router'
+import { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
 import ExpenseTracker from './pages/expenses-tracker.tsx'
-import IncomeTracker from './pages/income-tracker.tsx'
-import ATM from "./pages/ATM.tsx"
+import ExpensesFileUpload, { mockData } from './pages/expenses-file-upload.tsx'
+import { Transaction } from './models/expenses/transaction.tsx'
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    Component: App,
-    children: [
-      { index: true, Component: ExpensesFileUpload },
-      { path: 'file-upload', Component: ExpensesFileUpload },
-      { path: 'expense-tracker', Component: ExpenseTracker},
-      { path: 'income-tracker', Component: IncomeTracker},
-      { path: 'ATM', Component: ATM}
-    ]
-  },
-  {
-    path: '*',
-    Component: NotFound,
-  },
-]);
-
-// document.documentElement.classList.toggle('dark');
-
-// Export a function to mount the app to a container
+// Export this function to mount the app to a container
 export default function mountExpenseTracker(container: HTMLElement) {
-  createRoot(container).render(
-  <StrictMode>
-    <RouterProvider router={router} />
-  </StrictMode>
-);
 
-
-  // root.render(<App />);
+  const root = createRoot(container)
+  root.render(
+    <StrictMode>
+      <App />
+    </StrictMode>
+  );
 }
+
+function App() {
+  const [unfilteredTransactions, setUnfilteredTransactions] = useState<Transaction[]>(
+    mockData()
+  );
+  return (
+    <div className="grid grid-rows-1 gap-4 max-w-5xl" >
+      <h1 className="text-3xl font-bold text-center ">Expense Tracker</h1>
+      <ExpensesFileUpload setUnfilteredTransactions={setUnfilteredTransactions} />
+      <ExpenseTracker unfilteredTransactions={unfilteredTransactions} />
+    </div>
+  );
+}
+
+mountExpenseTracker(document.getElementById('root')!);

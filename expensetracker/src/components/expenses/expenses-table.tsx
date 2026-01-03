@@ -1,6 +1,5 @@
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { businessCategoryToString, type Transaction } from "@/models/expenses/transaction";
-import { useOutletContext } from "react-router";
 
 function TableRepresentation({ unfilteredTransactions }: { unfilteredTransactions: Transaction[] }) {
     return (
@@ -24,8 +23,7 @@ type PropType = {
     unfilteredTransactions: Transaction[]
 };
 
-function ExpensesTable() {
-    const { unfilteredTransactions } = useOutletContext<PropType>();
+function ExpensesTable( {unfilteredTransactions}: PropType) {
     return <TableRepresentation unfilteredTransactions={unfilteredTransactions} />
 }
 

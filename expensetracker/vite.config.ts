@@ -18,9 +18,7 @@ export default defineConfig({
       fileName: "expense-tracker"
     },
     rollupOptions: {
-      output: {
-        inlineDynamicImports: true     // Single JS file
-      }
-    }
+    external: ["react", "react-dom"]
+  }
   },
 });

@@ -1,11 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AlertDialog, AlertDialogAction,  AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { useNavigate, useOutletContext } from "react-router";
 
 import { Business, BusinessCategory, Transaction } from "@/models/expenses/transaction";
 
-function mockData(): Transaction[] {
+export function mockData(): Transaction[] {
     return [
         new Transaction(new Date("2025/10/09"), 1000, new Business("Ica", BusinessCategory.Groceries)),
         new Transaction(new Date("2025/10/08"), 2000, new Business("Coop", BusinessCategory.Groceries)),
@@ -25,10 +24,7 @@ type PropType = {
     setUnfilteredTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>
 };
 
-function ExpensesFileUpload() {
-    const navigate = useNavigate();
-    const { setUnfilteredTransactions } = useOutletContext<PropType>();
-
+function ExpensesFileUpload({setUnfilteredTransactions}: PropType) {
     return (
         <Card>
             <form onSubmit={(e) => {
@@ -38,19 +34,19 @@ function ExpensesFileUpload() {
             }}>
                 <AlertDialog>
                     <AlertDialogTrigger asChild>
-                        <Button className="ml-3" type="submit">Upload file</Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                         <AlertDialogHeader>
                             <AlertDialogTitle>Not implemented, added mock data instead.</AlertDialogTitle>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogAction onClick={() => { navigate("/expense-tracker") }}>
+                            <AlertDialogAction>
                                 Ok
                             </AlertDialogAction>
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
+                <Button className="ml-3" type="submit">Upload file</Button>
             </form>
         </Card>
     );

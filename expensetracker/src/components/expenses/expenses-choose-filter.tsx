@@ -197,7 +197,7 @@ function ChooseExpensesFilter({
         debugConsole.log(newFilteredTransactions)
         setFilteredTransactions(newFilteredTransactions)
 
-    }, [businessCategoryFilter, dateFilter])
+    }, [unfilteredTransactions, businessCategoryFilter, dateFilter])
 
     return (
         <Popover>

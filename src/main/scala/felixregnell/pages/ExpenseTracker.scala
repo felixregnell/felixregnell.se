@@ -5,11 +5,20 @@ import felixregnell.App
 import org.scalajs.dom
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.*
+import scala.scalajs.js.annotation._
+import scala.scalajs.js.Thenable
+import scala.concurrent.ExecutionContext.Implicits.global
 
-@JSImport("expense-tracker", JSImport.Default)
-@js.native
-val mountExpenseTracker: js.Function1[org.scalajs.dom.Element, Unit] = js.native
+
+@JSImport("react", JSImport.Namespace)
+@js.native object React extends js.Object
+
+@JSImport("react-dom", JSImport.Namespace)
+@js.native object ReactDOM extends js.Object
+
+def loadExpenseTracker(): Thenable[js.Dynamic] =
+  js.`import`("/expensetracker/dist/expense-tracker.js")
+  // SWAP TO: fetch data from server instead of weird mixed build
 
 val links = Vector[Router.Link](
   Router.homePageLink
@@ -17,7 +26,10 @@ val links = Vector[Router.Link](
 
 def loadExpenseTrackerPage(): Unit = 
   val body = App.newBody()
-  mountExpenseTracker(body)
-  App.replaceBody(body)
-  App.replaceNavbar(links)
+  loadExpenseTracker().toFuture foreach { mod =>
+    val mount = mod.default
+    App.replaceBody(body)
+    App.replaceNavbar(links)
+    mount(body)
+  }
  

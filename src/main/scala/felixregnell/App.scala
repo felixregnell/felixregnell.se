@@ -11,7 +11,7 @@ object App:
   // IDs
   private val appID = "app"
   private val navbarID = "app-navbar"
-  private val bodyID = "app-body"
+  private val bodyID = "root"
 
   // containers
   private val app = doc.getElementById(appID)
